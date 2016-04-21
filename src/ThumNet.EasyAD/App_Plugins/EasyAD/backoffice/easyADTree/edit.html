@@ -1,0 +1,59 @@
+﻿<form name="easyADForm"
+      ng-controller="EasyAD.EditController"
+      ng-show="loaded"
+      ng-submit="save(group)"
+      val-form-manager>
+    <umb-panel>
+        <umb-header>
+
+            <div class="span7">
+                <umb-content-name placeholder="@placeholders_entername"
+                                  ng-model="group.Name" />
+            </div>
+
+            <div class="span5">
+                <div class="btn-toolbar pull-right umb-btn-toolbar">
+                    <umb-options-menu ng-show="currentNode"
+                                      current-node="currentNode"
+                                      current-section="{{currentSection}}">
+                    </umb-options-menu>
+                </div>
+            </div>
+        </umb-header>
+
+        <div class="umb-panel-body umb-scrollable row-fluid">
+            <div class="tab-content form-horizontal" style="padding-bottom: 90px">
+                <div class="umb-pane">
+
+
+
+                    <umb-control-group label="User type" description="User type for people in the group">
+                        <select ng-model="group.UserType" required>
+                            <option ng-repeat="(key, data) in options.AllUserTypes" value="{{key}}" ng-selected="key == group.UserType">{{data}}</option>
+                        </select> 
+                    </umb-control-group>
+
+                    <umb-control-group label="Sections" description="Sections for people in the group">
+                        <div ng-repeat="(key, data) in options.AllSections">
+                            <label>
+                                <input type="checkbox" ng-model="sections[key]" /> {{data}}
+                            </label>                            
+                        </div>
+                    </umb-control-group>
+                   
+                    <div class="umb-tab-buttons" detect-fold>
+                        <div class="btn-group">
+                            <button type="submit" data-hotkey="ctrl+s" class="btn btn-success">
+                                <localize key="buttons_save">Save</localize>
+                            </button>                            
+                        </div>
+                    </div>
+
+                    <p>{{errorMessage}}</p>
+
+                </div>
+            </div>
+        </div>
+
+    </umb-panel>
+</form>

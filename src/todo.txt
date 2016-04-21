@@ -1,0 +1,8 @@
+TODO:
+- Create nuget package
+	- Change appSetting value in web.config when installed
+	- Store old appSetting value for uninstall package
+	- Revert appSetting value in web.config when uninstalled
+	- Add assembly to umbraco bin
+
+DONE:
