@@ -47,6 +47,8 @@
             }
         }
 
+        
+
         function checkGroupSections(groupSections) {
 
             // update the active sections for the current group.Sections

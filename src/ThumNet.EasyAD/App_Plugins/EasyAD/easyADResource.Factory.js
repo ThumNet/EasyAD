@@ -13,9 +13,6 @@
             save: function (group) {
                 return $http.post(apiUrl + 'PostSave', angular.toJson(group));
             },
-            //save: function (person) {
-            //    return $http.post("backoffice/Example/PersonApi/PostSave", angular.toJson(person));
-            //},
             deleteById: function(id) {
                 return $http.delete(apiUrl + 'DeleteById?id=' + id);
             }

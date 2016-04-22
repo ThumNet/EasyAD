@@ -28,17 +28,50 @@ namespace ThumNet.EasyAD.Managers
 
         public bool CheckPassword(string userName, string password)
         {
-            return CheckPasswordUsingPrincipalContext(userName, password);
+            //return CheckPasswordUsingPrincipalContext(userName, password);
+            try
+            {
+                using (var context = new PrincipalContext(ContextType.Domain))
+                {
+                    return context.ValidateCredentials(userName, password);
+                }
+            }
+            catch
+            {
+                // TODO: log exception
+                return false;
+            }
         }
 
         public IEnumerable<EasyADUser> GetUsersInGroup(string groupName)
         {
-            throw new NotImplementedException();
+            var users = new List<EasyADUser>();
+            using (var context = new PrincipalContext(ContextType.Domain))
+            {
+                var group = GroupPrincipal.FindByIdentity(context, groupName);
+                foreach (var principal in group.Members)
+                {
+                    var user = principal as UserPrincipal;
+                    if (user == null || string.IsNullOrWhiteSpace(user.EmailAddress)) { continue; }
+
+                    users.Add(new EasyADUser
+                    {
+                        DiplayName = user.DisplayName,
+                        Email = user.EmailAddress,
+                        Login = user.SamAccountName
+                    });
+                }
+            }
+            return users;
         }
 
         public bool GroupExists(string groupName)
         {
-            throw new NotImplementedException();
+            using (var context = new PrincipalContext(ContextType.Domain))
+            {
+                var group = GroupPrincipal.FindByIdentity(context, groupName);
+                return group != null;
+            }
         }
 
         internal bool CheckPasswordUsingPrincipalContext(string userName, string password)

@@ -55,14 +55,16 @@ namespace ThumNet.EasyAD.Handlers
                 var user = adUsers.First(u => u.Login == name);
                 var firstGroup = groups.Single(g => g.Id == adGroupedUsers.First(a => a.Value.Contains(user)).Key);
                 var backofficeUser = _userService.CreateUserWithIdentity(user.Login, user.Email, _userService.GetUserTypeById(firstGroup.UserType));
-                backofficeUser.Name = user.DiplayName;
-                
+                backofficeUser.Name = user.DiplayName; // TODO: bug displayname is not saved (call configureRights with override for this user)
+
+                _repo.AddUserToGroup(firstGroup.Id, backofficeUser.Id); // TODO: this should be be handled in the foreach below
                 backofficeUsers.Add(backofficeUser);
             }
 
             // Update the current users
             foreach (var user in backofficeUsers)
             {
+                // TODO: update the groups a user is in in the REPO
                 var groupsUserIsIn = adGroupedUsers.Where(a => a.Value.Any(u => u.Login == user.Username)).Select(kvp => groups.First(g => g.Id == kvp.Key));
                 ConfigureUserRights(user, groupsUserIsIn);
             }

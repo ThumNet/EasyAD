@@ -16,7 +16,7 @@ namespace ThumNet.EasyAD.Handlers
             var rowCount = _repo.DeleteGroup(groupId);
             _repo.DeleteGroupUsers(groupId);
 
-            var group = _repo.GetById(groupId);
+            var group = _repo.GetById(groupId); // TODO: handle group == null!
             var groupUsers = _groupManager.GetUsersInGroup(group.Name); // TODO: incorrect -> read the users currently in the EasyADGroup2Users table
             foreach (var groupUser in groupUsers)
             {
