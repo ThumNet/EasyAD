@@ -3,7 +3,7 @@ using System.Linq;
 using ThumNet.EasyAD.Models;
 using Umbraco.Core.Models.Membership;
 
-namespace ThumNet.EasyAD.Tests.TestData
+namespace ThumNet.EasyAD.UnitTests.TestData
 {
     internal static class Constants
     {

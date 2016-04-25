@@ -4,7 +4,7 @@ using ThumNet.EasyAD.Models;
 using ThumNet.EasyAD.Resolvers;
 using System.Collections.Generic;
 
-namespace ThumNet.EasyAD.Tests.Resolvers
+namespace ThumNet.EasyAD.UnitTests.Resolvers
 {
     [TestClass]
     public class SectionResolverTests

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ThumNet.EasyAD.Models;
 
-namespace ThumNet.EasyAD.Tests.Models
+namespace ThumNet.EasyAD.UnitTests.Models
 {
     [TestClass]
     public class EasyADUserTests

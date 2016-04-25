@@ -16,7 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		todo.txt = todo.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumNet.EasyAD.Tests", "ThumNet.EasyAD.Tests\ThumNet.EasyAD.Tests.csproj", "{8C4D8C73-2E16-4F7E-AD7B-1B2F4019E375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumNet.EasyAD.UnitTests", "ThumNet.EasyAD.Tests\ThumNet.EasyAD.UnitTests.csproj", "{8C4D8C73-2E16-4F7E-AD7B-1B2F4019E375}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{245873C7-232A-4F21-8F8C-D85839290199}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumNet.EasyAD.IntegrationTests", "ThumNet.EasyAD.IntegrationTests\ThumNet.EasyAD.IntegrationTests.csproj", "{3AB6C48F-C4A9-403A-9967-ACBCF0DB8ACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,8 +40,16 @@ Global
 		{8C4D8C73-2E16-4F7E-AD7B-1B2F4019E375}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C4D8C73-2E16-4F7E-AD7B-1B2F4019E375}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C4D8C73-2E16-4F7E-AD7B-1B2F4019E375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB6C48F-C4A9-403A-9967-ACBCF0DB8ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB6C48F-C4A9-403A-9967-ACBCF0DB8ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB6C48F-C4A9-403A-9967-ACBCF0DB8ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB6C48F-C4A9-403A-9967-ACBCF0DB8ACB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C4D8C73-2E16-4F7E-AD7B-1B2F4019E375} = {245873C7-232A-4F21-8F8C-D85839290199}
+		{3AB6C48F-C4A9-403A-9967-ACBCF0DB8ACB} = {245873C7-232A-4F21-8F8C-D85839290199}
 	EndGlobalSection
 EndGlobal

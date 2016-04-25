@@ -1,11 +1,12 @@
 ﻿using FluentScheduler;
 using ThumNet.EasyAD.Models;
 using Umbraco.Core;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Persistence;
 
 namespace ThumNet.EasyAD.Startup
 {
-    public class ServerVariableParserEvent : ApplicationEventHandler
+    public class ApplicationEvents : ApplicationEventHandler
     {
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
@@ -19,6 +20,8 @@ namespace ThumNet.EasyAD.Startup
             //Get the Umbraco Database context
             var ctx = applicationContext.DatabaseContext;
             var db = new DatabaseSchemaHelper(ctx.Database, applicationContext.ProfilingLogger.Logger, ctx.SqlSyntax);
+
+            LogHelper.Info<ApplicationEvents>("Creating EasyAD tables");
 
             //Check if the DB table does NOT exist
             if (!db.TableExist(AppConstants.TableNames.EasyADGroups))

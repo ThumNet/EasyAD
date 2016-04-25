@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ThumNet.EasyAD.UnitTests")]
+[assembly: AssemblyTitle("ThumNet.EasyAD.IntegrationTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ThumNet.EasyAD.UnitTests")]
+[assembly: AssemblyProduct("ThumNet.EasyAD.IntegrationTests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8c4d8c73-2e16-4f7e-ad7b-1b2f4019e375")]
+[assembly: Guid("3ab6c48f-c4a9-403a-9967-acbcf0db8acb")]
 
 // Version information for an assembly consists of the following four values:
 //

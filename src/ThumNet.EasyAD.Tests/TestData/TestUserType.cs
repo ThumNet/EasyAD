@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Umbraco.Core.Models.Membership;
 
-namespace ThumNet.EasyAD.Tests.TestData
+namespace ThumNet.EasyAD.UnitTests.TestData
 {
     internal class TestUserType : IUserType
     {

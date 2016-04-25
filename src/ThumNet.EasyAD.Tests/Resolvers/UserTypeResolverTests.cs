@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Umbraco.Core.Models.Membership;
 using Moq;
 
-namespace ThumNet.EasyAD.Tests.Resolvers
+namespace ThumNet.EasyAD.UnitTests.Resolvers
 {
     [TestClass]
     public class UserTypeResolverTests

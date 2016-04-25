@@ -6,7 +6,7 @@ using ThumNet.EasyAD.Managers;
 using ThumNet.EasyAD.Repositories;
 using Umbraco.Core.Services;
 
-namespace ThumNet.EasyAD.Tests.Handlers
+namespace ThumNet.EasyAD.UnitTests.Handlers
 {
     public abstract class BaseHandlerTest
     {

@@ -4,9 +4,9 @@ using ThumNet.EasyAD.Handlers;
 using System.Collections.Generic;
 using ThumNet.EasyAD.Models;
 using Umbraco.Core.Models.Membership;
-using ThumNet.EasyAD.Tests.TestData;
+using ThumNet.EasyAD.UnitTests.TestData;
 
-namespace ThumNet.EasyAD.Tests.Handlers
+namespace ThumNet.EasyAD.UnitTests.Handlers
 {
     [TestClass]
     public class RefreshGroupsHandlerTests : BaseHandlerTest

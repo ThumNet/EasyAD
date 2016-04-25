@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models.Membership;
 
-namespace ThumNet.EasyAD.Tests.TestData
+namespace ThumNet.EasyAD.UnitTests.TestData
 {
     internal class TestUser : IUser
     {
