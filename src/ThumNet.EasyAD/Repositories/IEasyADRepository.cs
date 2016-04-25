@@ -13,6 +13,7 @@ namespace ThumNet.EasyAD.Repositories
         IEnumerable<EasyADGroup2User> GetAllUsers();
         EasyADGroup GetById(int id);
         IEnumerable<EasyADGroup> GetGroupsForUser(int userId);
-        void SaveOrUpdate(EasyADGroup group);
+        void SetGroupsForUser(int userId, IEnumerable<int> groupIds);
+        void SaveOrUpdate(EasyADGroup group);        
     }
 }

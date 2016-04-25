@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ThumNet.EasyAD.Models;
 using Umbraco.Core.Persistence;
@@ -81,6 +82,26 @@ namespace ThumNet.EasyAD.Repositories
         {
             var sql = new Sql().Where<EasyADGroup2User>(u => u.GroupId == groupId);
             _database.Delete<EasyADGroup2User>(sql);
+        }
+
+        public void SetGroupsForUser(int userId, IEnumerable<int> groupIds)
+        {
+            var currentSql = new Sql().Select("[GroupId]").From(AppConstants.TableNames.EasyADGroup2Users).Where<EasyADGroup2User>(g => g.UserId == userId);
+            var currentGroups = _database.Fetch<int>(currentSql);
+
+            var deleteGroupIds = currentGroups.Except(groupIds);
+            var addGroupIds = groupIds.Except(currentGroups);
+            
+            if (deleteGroupIds.Any())
+            {
+                var deleteSql = new Sql().Where("[UserId] = @0 AND [GroupId] IN (@1)", userId, deleteGroupIds);
+                _database.Delete<EasyADGroup2User>(deleteSql);
+            }
+
+            if (addGroupIds.Any())
+            {
+                _database.BulkInsertRecords<EasyADGroup2User>(addGroupIds.Select(g => new EasyADGroup2User { GroupId = g, UserId = userId }));
+            }
         }
     }
 }

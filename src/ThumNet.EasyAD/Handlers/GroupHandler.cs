@@ -31,7 +31,7 @@ namespace ThumNet.EasyAD.Handlers
             _userService = userService;
         }
 
-        protected void ConfigureUserRights(IUser backofficeUser, IEnumerable<EasyADGroup> groupsUserIsIn, bool shouldSave = false)
+        protected void ConfigureUserRights(IUser backofficeUser, IEnumerable<EasyADGroup> groupsUserIsIn)
         {            
             var desiredSections = SectionResolver.Resolve(groupsUserIsIn);
             var newUserType = UserTypeResolver.Resolve(groupsUserIsIn, AllUserTypes);
@@ -44,10 +44,9 @@ namespace ThumNet.EasyAD.Handlers
                 addSections.ForEach(s => backofficeUser.AddAllowedSection(s));
                 removeSections.ForEach(s => backofficeUser.RemoveAllowedSection(s));
                 backofficeUser.UserType = newUserType;
-                shouldSave = true;
             }
 
-            if (shouldSave) // Only update the backoffice user id needed!
+            if (backofficeUser.IsDirty())
             {
                 _userService.Save(backofficeUser);
             }

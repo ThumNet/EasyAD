@@ -36,7 +36,7 @@ namespace ThumNet.EasyAD.Handlers
                 else
                 {
                     // Update the sections and the usertype based on the remaining groups
-                    ConfigureUserRights(backofficeUser, groupsUserIsIn);
+                    ConfigureUserRights(backofficeUser, groupsUserIsIn);                    
                 }
             }
 

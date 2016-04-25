@@ -17,24 +17,21 @@ namespace ThumNet.EasyAD.Handlers
             _repo.SaveOrUpdate(group);
             _repo.DeleteGroupUsers(group.Id);
 
-            var groupUsers = _groupManager.GetUsersInGroup(group.Name);
-            var shouldSave = false;
+            var groupUsers = _groupManager.GetUsersInGroup(group.Name);           
             foreach (var groupUser in groupUsers)
             {
                 var backofficeUser = _userService.GetByUsername(groupUser.Login);
-                shouldSave = backofficeUser == null;
                 if (backofficeUser == null)
                 {
                     // create the backoffice user
-                    backofficeUser = _userService.CreateUserWithIdentity(groupUser.Login, groupUser.Email, _userService.GetUserTypeById(group.UserType));
-                    backofficeUser.Name = groupUser.DiplayName;
-
+                    backofficeUser = _userService.CreateUserWithIdentity(groupUser.Login, groupUser.Email, _userService.GetUserTypeById(group.UserType));                    
                 }
+                backofficeUser.Name = groupUser.DiplayName;
 
                 _repo.AddUserToGroup(group.Id, backofficeUser.Id);
                 var groupsUserIsIn = _repo.GetGroupsForUser(backofficeUser.Id).ToList();
 
-                ConfigureUserRights(backofficeUser, groupsUserIsIn, shouldSave);
+                ConfigureUserRights(backofficeUser, groupsUserIsIn);                
             }
 
             return group.Id;
