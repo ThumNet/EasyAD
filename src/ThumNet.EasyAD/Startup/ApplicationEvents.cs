@@ -15,7 +15,7 @@ namespace ThumNet.EasyAD.Startup
             TaskManager.Initialize(new UpdateEasyADRegistry());
         }
 
-        private void CreateTables(ApplicationContext applicationContext)
+        internal static void CreateTables(ApplicationContext applicationContext)
         {
             //Get the Umbraco Database context
             var ctx = applicationContext.DatabaseContext;

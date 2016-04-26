@@ -274,9 +274,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="TestApplicationBase.cs" />
+    <Compile Include="Framework\TestGroupBasedUserManager.cs" />
+    <Compile Include="Framework\TestSetup.cs" />
+    <Compile Include="Framework\TestUmbracoApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestBootManager.cs" />
+    <Compile Include="Framework\TestBootManager.cs" />
     <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>

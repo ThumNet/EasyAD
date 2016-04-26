@@ -1,6 +1,4 @@
-﻿using System;
-using ThumNet.EasyAD.Startup;
-using Umbraco.Core;
+﻿using Umbraco.Core;
 
 namespace ThumNet.EasyAD.IntegrationTests
 {
@@ -17,7 +15,6 @@ namespace ThumNet.EasyAD.IntegrationTests
             //otherwise they won't be loaded into the AppDomain.
             //var interfacesAssemblyName = typeof(IDataType).Assembly.FullName;
             //var editorControlsAssemblyName = typeof(uploadField).Assembly.FullName;
-            var easyAdAssemblyName = typeof(ApplicationEvents).Assembly.FullName;
 
             base.InitializeApplicationRootPath(baseDirectory);
         }

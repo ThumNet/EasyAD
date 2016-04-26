@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Umbraco.Core;
 using System.IO;
 using System.Linq;
@@ -13,7 +12,7 @@ namespace ThumNet.EasyAD.IntegrationTests
     /// Extends the UmbracoApplicationBase, which is needed to start the application with our own bootmanager.
     /// <see cref="https://github.com/sitereactor/umbraco-console-example/blob/master/UmbConsole/ConsoleApplicationBase.cs"/>
     /// </summary>
-    public class TestApplicationBase : UmbracoApplicationBase
+    public class TestUmbracoApplication : UmbracoApplicationBase
     {
         private const string DemoSiteFolderName = "ThumNet.EasyAD.DemoSite";
 
@@ -26,9 +25,6 @@ namespace ThumNet.EasyAD.IntegrationTests
 
             CopySiteConfigFiles(binDirectory);
 
-            //Copy the clean database to start the tests with
-            //File.Copy(Path.Combine(DataDirectory, TestDBFilename), Path.Combine(DataDirectory, OrgDbFilename), true);            
-
             AppDomain.CurrentDomain.SetData("DataDirectory", DataDirectory);
 
             return new TestBootManager(this, binDirectory.FullName);
@@ -40,9 +36,9 @@ namespace ThumNet.EasyAD.IntegrationTests
             CreateDatabase();
         }
 
-        public void Start(object sender, EventArgs e)
+        public void Start()
         {
-            Application_Start(sender, e);
+            Application_Start(this, new EventArgs());
         }
 
         private void CreateDatabase()
