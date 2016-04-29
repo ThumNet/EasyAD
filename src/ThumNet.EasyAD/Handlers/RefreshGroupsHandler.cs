@@ -39,7 +39,7 @@ namespace ThumNet.EasyAD.Handlers
             foreach (var name in deleteUsers)
             {
                 var user = backofficeUsers.First(u => u.Username == name);
-                _userService.Delete(user, true); // TODO: remove deletePermanently
+                _userService.Delete(user, deletePermanently: true); // TODO: remove deletePermanently
                 _repo.DeleteUser(user.Id);
 
                 backofficeUsers.Remove(user);

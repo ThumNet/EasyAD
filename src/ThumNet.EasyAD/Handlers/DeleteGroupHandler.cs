@@ -12,15 +12,12 @@ namespace ThumNet.EasyAD.Handlers
         }
 
         public int Handle(int groupId)
-        {
-            var rowCount = _repo.DeleteGroup(groupId);
+        {                       
+            var groupUsers = _repo.GetUsersInGroup(groupId);
             _repo.DeleteGroupUsers(groupId);
-
-            var group = _repo.GetById(groupId); // TODO: handle group == null!
-            var groupUsers = _groupManager.GetUsersInGroup(group.Name); // TODO: incorrect -> read the users currently in the EasyADGroup2Users table
             foreach (var groupUser in groupUsers)
             {
-                var backofficeUser = _userService.GetByUsername(groupUser.Login);
+                var backofficeUser = _userService.GetUserById(groupUser.UserId);
                 if (backofficeUser == null)
                 {
                     continue;
@@ -31,7 +28,7 @@ namespace ThumNet.EasyAD.Handlers
                 {
                     // user is no longer needed
                     // See: https://our.umbraco.org/forum/getting-started/questions-about-runway-and-modules/8848-Deleting-Users
-                    _userService.Delete(backofficeUser, true); // TODO: remove deletePermanently
+                    _userService.Delete(backofficeUser, deletePermanently: true); // TODO: remove deletePermanently
                 }
                 else
                 {
@@ -39,6 +36,9 @@ namespace ThumNet.EasyAD.Handlers
                     ConfigureUserRights(backofficeUser, groupsUserIsIn);                    
                 }
             }
+
+            var rowCount = _repo.DeleteGroup(groupId);
+            
 
             return rowCount;
         }

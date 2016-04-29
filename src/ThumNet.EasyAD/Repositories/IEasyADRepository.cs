@@ -11,6 +11,7 @@ namespace ThumNet.EasyAD.Repositories
         void DeleteGroupUsers(int groupId);
         IEnumerable<EasyADGroup> GetAll();
         IEnumerable<EasyADGroup2User> GetAllUsers();
+        IEnumerable<EasyADGroup2User> GetUsersInGroup(int groupId);
         EasyADGroup GetById(int id);
         IEnumerable<EasyADGroup> GetGroupsForUser(int userId);
         void SetGroupsForUser(int userId, IEnumerable<int> groupIds);

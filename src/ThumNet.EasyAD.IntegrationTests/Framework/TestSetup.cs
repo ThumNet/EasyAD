@@ -6,8 +6,6 @@ namespace ThumNet.EasyAD.IntegrationTests.Framework
     [TestClass]
     public class TestSetup
     {
-        internal static string ManagerPropertyKey = "GroupBasedUserManager";
-
         #region Test setup/cleanup
         private static TestUmbracoApplication _application;
 
@@ -22,10 +20,6 @@ namespace ThumNet.EasyAD.IntegrationTests.Framework
 
             //Configure the GroupBasedUserManager to use the TestGroupBasedUserManager instead of the real ActiveDirectory
             Managers.ManagerFactory.SetManager<TestGroupBasedUserManager>();
-
-            //Add the GroupBasedUserManager to the TestContext
-            var manager = Managers.ManagerFactory.GetManager();
-            context.Properties.Add(ManagerPropertyKey, manager);
         }
 
         [AssemblyCleanup]

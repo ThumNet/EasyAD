@@ -51,11 +51,12 @@ namespace ThumNet.EasyAD.IntegrationTests
             if (databaseProvider == DatabaseProviders.SqlServerCE)
             {
                 var dbPath = Path.Combine(dataDirectory, "Umbraco.sdf");
-                if (File.Exists(dbPath) == false)
+                if (File.Exists(dbPath))
                 {
-                    var engine = new SqlCeEngine(@"Data Source=|DataDirectory|\Umbraco.sdf;Flush Interval=1;");
-                    engine.CreateDatabase();
+                    File.Delete(dbPath);
                 }
+                var engine = new SqlCeEngine(@"Data Source=|DataDirectory|\Umbraco.sdf;Flush Interval=1;");
+                engine.CreateDatabase();
             }
 
             db.CreateDatabaseSchema(false, context);
