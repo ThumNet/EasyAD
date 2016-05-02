@@ -13,7 +13,7 @@
 	<Import Project="$(MSBuildUmbracoTasksPath)\MSBuild.Umbraco.Tasks.Targets" />
 	<Import Project="$(MSBuildNugetTasksPath)\MSBuild.NuGet.Tasks.Targets" />
 	<Import Project="$(AppVeyorUmbracoPath)\AppVeyorUmbraco.Targets" />
-	
+
 	<!-- PROPERTIES -->
 	<!-- SHARED PROPERTIES -->
 	<PropertyGroup>
@@ -39,7 +39,7 @@
 		<Language>en-US</Language>
 		<RequireLicenseAcceptance>false</RequireLicenseAcceptance>
 	</PropertyGroup>
-  
+
 
 	<!-- APPVEYOR PROPERTIES -->
 	<PropertyGroup>
@@ -76,30 +76,30 @@
 		<RootDir>$(MSBuildProjectDirectory)</RootDir>
 		<PackageDir>$(RootDir)\..\Releases</PackageDir>
 		<BuildUmbDir>$(MSBuildProjectDirectory)\_umbraco</BuildUmbDir>
+		<SourcesDir>$(RootDir)\..\src</SourcesDir>
 		<BuildNuGetDir>$(MSBuildProjectDirectory)\_nuget</BuildNuGetDir>
-		<CoreProjectDir>$(RootDir)\..\src\ThumNet.EasyAD\</CoreProjectDir>
-		<TestsProjectDir>$(RootDir)\..\src\ThumNet.EasyAD.Tests\</TestsProjectDir>
+		<CoreProjectDir>$(SourcesDir)\ThumNet.EasyAD\</CoreProjectDir>
 	</PropertyGroup>
 
 	<!-- TARGETS -->
 	<Target Name="GetProductVersion">
-		<Message Text="MSBuildToolsVersion: $(MSBuildToolsVersion)" />        
-	
+		<Message Text="MSBuildToolsVersion: $(MSBuildToolsVersion)" />
+
 		<Error Condition="$(AbortBuild) == 'true'" Text="Aborting the build as the UMBRACO_PACKAGE_PRERELEASE_SUFFIX suffix is set 'rtm' but APPVEYOR_REPO_TAG is not 'true'" />
 		<GetProductVersion BuildVersion="$(APPVEYOR_BUILD_VERSION)" BuildSuffix="$(UMBRACO_PACKAGE_PRERELEASE_SUFFIX)" Release="$(Release)">
 			<Output TaskParameter="ProductVersion" PropertyName="ProductVersion"/>
-		</GetProductVersion>		
-		
+		</GetProductVersion>
+
 		<Message Text="ProductVersion:    $(ProductVersion)" />
 	</Target>
 
-  
+
 	<!-- CLEAN -->
 	<Target Name="Clean" DependsOnTargets="GetProductVersion">
 		<RemoveDir Directories="$(BuildNuGetDir)" Condition="Exists('$(BuildNuGetDir)')" />
 		<RemoveDir Directories="$(BuildUmbDir)" Condition="Exists('$(BuildUmbDir)')" />
-		<MakeDir Directories="$(BuildNuGetDir)" />  
-		<MakeDir Directories="$(BuildUmbDir)" />  
+		<MakeDir Directories="$(BuildNuGetDir)" />
+		<MakeDir Directories="$(BuildUmbDir)" />
 		<MakeDir Directories="$(PackageDir)" />
 	</Target>
 
@@ -112,37 +112,38 @@
 		<AssemblyInfo CodeLanguage="CS"
 			OutputFile="$(CoreProjectDir)\Properties\VersionInfo.cs"
 			AssemblyVersion="@(VersionMajor).@(VersionMinor).*"
-			AssemblyInformationalVersion="$(ProductVersion)"/>		
+			AssemblyInformationalVersion="$(ProductVersion)"/>
 	</Target>
 
 	<!-- COMPILE -->
 	<Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
-		<MSBuild Projects="$(CoreProjectDir)\ThumNet.EasyAD.csproj" Properties="Configuration=$(BuildConfig)" />
-		<MSBuild Projects="$(TestsProjectDir)\ThumNet.EasyAD.Tests.csproj" Properties="Configuration=$(BuildConfig)" />
+		<MSBuild Projects="$(SourcesDir)\ThumNet.EasyAD\ThumNet.EasyAD.csproj" Properties="Configuration=$(BuildConfig)" />
+		<MSBuild Projects="$(SourcesDir)\ThumNet.EasyAD.UnitTests\ThumNet.EasyAD.UnitTests.csproj" Properties="Configuration=$(BuildConfig)" />
+		<MSBuild Projects="$(SourcesDir)\ThumNet.EasyAD.IntegrationTests\ThumNet.EasyAD.IntegrationTests.csproj" Properties="Configuration=$(BuildConfig)" />
 	</Target>
 
   <!-- PREPARE FILES -->
 	<Target Name="PrepareFiles" DependsOnTargets="Compile">
-    
+
     <ItemGroup>
-      <RootFiles Include="$(CoreProjectDir)\App_Plugins\EasyAD\*.*" />	  
-	  <TreeFiles Include="$(CoreProjectDir)\App_Plugins\EasyAD\backoffice\easyADTree\*.*" />	  
+      <RootFiles Include="$(CoreProjectDir)\App_Plugins\EasyAD\*.*" />
+	  <TreeFiles Include="$(CoreProjectDir)\App_Plugins\EasyAD\backoffice\easyADTree\*.*" />
 	  <SrcFiles Include="$(CoreProjectDir)\**\*.cs" Exclude="$(CoreProjectDir)\obj\**"/>
 	  <BinFiles Include="$(CoreProjectDir)\bin\$(BuildConfig)\ThumNet.EasyAD.dll" />
 	  <PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
-	  <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />	  
+	  <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
     </ItemGroup>
-    
+
 	<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildUmbDir)\bin" />
 	<Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildUmbDir)" />
 	<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
 	<Copy SourceFiles="@(RootFiles)" DestinationFolder="$(BuildNuGetDir)\content\App_Plugins\EasyAD\" />
-	<Copy SourceFiles="@(TreeFiles)" DestinationFolder="$(BuildNuGetDir)\content\App_Plugins\EasyAD\backoffice\easyADTree\" />	
+	<Copy SourceFiles="@(TreeFiles)" DestinationFolder="$(BuildNuGetDir)\content\App_Plugins\EasyAD\backoffice\easyADTree\" />
     <Copy SourceFiles="@(SrcFiles)" DestinationFiles="@(SrcFiles->'$(BuildNuGetDir)\src\%(RecursiveDir)%(Filename)%(Extension)')" />
 	<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
-	
+
   </Target>
-    
+
 	<!-- MANIFEST UMBRACO -->
 	<Target Name="ManifestUmbraco" DependsOnTargets="PrepareFiles">
 		<ItemGroup>
@@ -162,7 +163,7 @@
 			PackageUrl="$(ProjectUrl)"
 			Files="@(ManifestFiles)" />
 	</Target>
-	
+
   <!-- MANIFEST FOR NUGET PACKAGE -->
 	<Target Name="ManifestNuGet" DependsOnTargets="PrepareFiles">
 	<ItemGroup>
@@ -190,23 +191,23 @@
 	</Target>
 	<!-- PACKAGE -->
 	<Target Name="Package" DependsOnTargets="ManifestUmbraco; ManifestNuGet">
-		
+
 		<ItemGroup>
 			<PackageFiles Include="$(BuildUmbDir)\**\*.*" />
-		</ItemGroup>		
-		
+		</ItemGroup>
+
 		<Package ManifestFile="$(BuildUmbDir)\package.xml"
 			WorkingDirectory="$(BuildUmbDir)"
 			OutputDirectory="$(PackageDir)"
 			Files="@(PackageFiles)" />
-			
+
 		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Tools\NuGet.exe"
           ManifestFile="$(BuildNuGetDir)\package.nuspec"
           BasePath="$(BuildNuGetDir)"
           Version="$(ProductVersion)"
           OutputDirectory="$(PackageDir)"
           Symbols="true" />
-		  
+
 		<RemoveDir Directories="$(BuildUmbDir)" Condition="Exists('$(BuildUmbDir)')" />
 		<RemoveDir Directories="$(BuildNuGetDir)" Condition="Exists('$(BuildNuGetDir)')" />
 	</Target>
