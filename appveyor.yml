@@ -11,7 +11,8 @@ build_script:
 
 test:
   assemblies:
-    - 'ThumNet.EasyAD.Tests.dll'
+    - '**\ThumNet.EasyAD.UnitTests.dll'
+    - '**\ThumNet.EasyAD.IntegrationTests.dll'
 
 artifacts:
   - path: Releases\*.nupkg
