@@ -17,3 +17,5 @@
 
 # ImageProcessor DiskCache 
 **/App_Data/cache/
+src/ThumNet.EasyAD.DemoSite/umbraco_client/
+src/ThumNet.EasyAD.DemoSite/umbraco/
