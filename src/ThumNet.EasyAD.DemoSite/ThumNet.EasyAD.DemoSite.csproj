@@ -424,16 +424,7 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
-  </ProjectExtensions>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <PostBuildEvent>
-      del  "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD" /F /S
-      xcopy "$(SolutionDir)ThumNet.EasyAD\bin\Debug\FluentScheduler.dll" "$(SolutionDir)ThumNet.EasyAD.DemoSite\bin\" /Y
-      xcopy "$(SolutionDir)ThumNet.EasyAD\bin\Debug\ThumNet.EasyAD.dll" "$(SolutionDir)ThumNet.EasyAD.DemoSite\bin\" /Y
-      mkdir "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD"
-      xcopy "$(SolutionDir)ThumNet.EasyAD\App_Plugins\EasyAD" "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD" /E /I /Y
-    </PostBuildEvent>
-  </PropertyGroup>
+  </ProjectExtensions>  
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
@@ -449,6 +440,15 @@
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <Import Project="..\packages\UmbracoCms.7.4.3\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.4.3\build\UmbracoCms.targets')" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <PostBuildEvent>
+      del  "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD" /F /S
+      xcopy "$(SolutionDir)ThumNet.EasyAD\bin\Debug\FluentScheduler.dll" "$(SolutionDir)ThumNet.EasyAD.DemoSite\bin\" /Y
+      xcopy "$(SolutionDir)ThumNet.EasyAD\bin\Debug\ThumNet.EasyAD.dll" "$(SolutionDir)ThumNet.EasyAD.DemoSite\bin\" /Y
+      mkdir "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD"
+      xcopy "$(SolutionDir)ThumNet.EasyAD\App_Plugins\EasyAD" "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD" /E /I /Y
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -456,4 +456,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>
