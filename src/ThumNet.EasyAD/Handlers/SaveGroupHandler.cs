@@ -2,6 +2,7 @@
 using ThumNet.EasyAD.Managers;
 using ThumNet.EasyAD.Models;
 using ThumNet.EasyAD.Repositories;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Services;
 
 namespace ThumNet.EasyAD.Handlers
@@ -14,6 +15,8 @@ namespace ThumNet.EasyAD.Handlers
 
         public int Handle(EasyADGroup group)
         {
+            LogHelper.Info<DeleteGroupHandler>(string.Format("Saving group {0} started", group.Name));
+
             _repo.SaveOrUpdate(group);
             _repo.DeleteGroupUsers(group.Id);
 
@@ -24,6 +27,7 @@ namespace ThumNet.EasyAD.Handlers
                 if (backofficeUser == null)
                 {
                     // create the backoffice user
+                    LogHelper.Info<DeleteGroupHandler>(string.Format("Creating user '{0}' in backoffice", groupUser.DiplayName));
                     backofficeUser = _userService.CreateUserWithIdentity(groupUser.Login, groupUser.Email, _userService.GetUserTypeById(group.UserType));                    
                 }
                 backofficeUser.Name = groupUser.DiplayName;
@@ -33,6 +37,8 @@ namespace ThumNet.EasyAD.Handlers
 
                 ConfigureUserRights(backofficeUser, groupsUserIsIn);                
             }
+
+            LogHelper.Info<DeleteGroupHandler>(string.Format("Saving group '{0}' completed", group.Name));
 
             return group.Id;
         }

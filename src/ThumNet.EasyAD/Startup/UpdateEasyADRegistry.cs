@@ -7,7 +7,7 @@ namespace ThumNet.EasyAD.Startup
     {
         public UpdateEasyADRegistry()
         {
-            Schedule<UpdateEasyADTask>().ToRunEvery(5).Minutes();
+            Schedule<UpdateEasyADTask>().ToRunEvery(15).Minutes();
         }
     }
 }

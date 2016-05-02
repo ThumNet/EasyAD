@@ -290,8 +290,6 @@
     <Compile Include="Handlers\SaveGroupHandler.cs" />
     <Compile Include="Handlers\RefreshGroupsHandler.cs" />
     <Compile Include="Managers\IGroupBasedUserManager.cs" />
-    <Compile Include="Managers\ManagerFactory.cs" />
-    <Compile Include="Managers\SampleGroupBasedManager.cs" />
     <Compile Include="Models\EasyADGroup2User.cs" />
     <Compile Include="Models\EasyADUser.cs" />
     <Compile Include="Models\EasyADGroup.cs" />

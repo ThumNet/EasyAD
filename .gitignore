@@ -19,3 +19,4 @@
 **/App_Data/cache/
 src/ThumNet.EasyAD.DemoSite/umbraco_client/
 src/ThumNet.EasyAD.DemoSite/umbraco/
+src/ThumNet.EasyAD.DemoSite/App_Plugins/EasyAD/backoffice/easyADTree/

@@ -28,12 +28,19 @@ namespace ThumNet.EasyAD.IntegrationTests.Framework
 
         #region Properties
 
+        private TestGroupBasedUserManager _manager;
         protected TestGroupBasedUserManager Manager
         {
             get
             {
-                return Managers.ManagerFactory.GetManager() as TestGroupBasedUserManager;
+                return _manager;
             }
+        }
+
+        [TestInitialize]
+        public void BaseTestInit()
+        {
+            _manager = new TestGroupBasedUserManager();
         }
 
         private IEasyADRepository _repo = null;

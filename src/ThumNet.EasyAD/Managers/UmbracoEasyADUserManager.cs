@@ -15,7 +15,7 @@ namespace ThumNet.EasyAD.Managers
 
         public async override Task<bool> CheckPasswordAsync(BackOfficeIdentityUser user, string password)
         {
-            var groupManager = ManagerFactory.GetManager();
+            var groupManager = new ActiveDirectoryManager();
 
             // First check the user against Active Directory
             bool validLogin = groupManager.CheckPassword(user.UserName, password);

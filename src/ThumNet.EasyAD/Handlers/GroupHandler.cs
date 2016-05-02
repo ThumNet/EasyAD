@@ -4,6 +4,7 @@ using ThumNet.EasyAD.Managers;
 using ThumNet.EasyAD.Models;
 using ThumNet.EasyAD.Repositories;
 using ThumNet.EasyAD.Resolvers;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Models.Membership;
 using Umbraco.Core.Services;
 
@@ -48,6 +49,7 @@ namespace ThumNet.EasyAD.Handlers
 
             if (backofficeUser.IsDirty())
             {
+                LogHelper.Info<DeleteGroupHandler>(string.Format("Updating userrights for '{0}'", backofficeUser.Name));
                 _userService.Save(backofficeUser);
             }
         }

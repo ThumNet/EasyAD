@@ -63,5 +63,10 @@ namespace ThumNet.EasyAD.IntegrationTests.Framework
                 _groups[groupName] = value;
             }
         }
+
+        internal void RemoveGroup(string groupName)
+        {
+            _groups.Remove(groupName);
+        }
     }
 }

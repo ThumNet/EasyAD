@@ -39,7 +39,7 @@ namespace ThumNet.EasyAD.Controllers
 
         public int DeleteById(int id)
         {
-            var groupManager = ManagerFactory.GetManager();
+            var groupManager = new ActiveDirectoryManager();
             var repo = new EasyADRepository(DatabaseContext.Database, DatabaseContext.SqlSyntax);
             var handler = new DeleteGroupHandler(repo, groupManager, Services.UserService);
             return handler.Handle(id);
@@ -47,7 +47,7 @@ namespace ThumNet.EasyAD.Controllers
 
         public GroupSaveViewModel PostSave(EasyADGroup group)
         {
-            var groupManager = ManagerFactory.GetManager();
+            var groupManager = new ActiveDirectoryManager();
 
             string message = "";
 

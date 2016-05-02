@@ -17,9 +17,6 @@ namespace ThumNet.EasyAD.IntegrationTests.Framework
 
             //Because the ApplicationEventHandler isn't recognized from the Test application call the CreateTables method manually 
             Startup.ApplicationEvents.CreateTables(ApplicationContext.Current);
-
-            //Configure the GroupBasedUserManager to use the TestGroupBasedUserManager instead of the real ActiveDirectory
-            Managers.ManagerFactory.SetManager<TestGroupBasedUserManager>();
         }
 
         [AssemblyCleanup]

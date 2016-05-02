@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using ThumNet.EasyAD.Managers;
 using ThumNet.EasyAD.Repositories;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Services;
 
 namespace ThumNet.EasyAD.Handlers
@@ -12,7 +13,9 @@ namespace ThumNet.EasyAD.Handlers
         }
 
         public int Handle(int groupId)
-        {                       
+        {
+            LogHelper.Info<DeleteGroupHandler>(string.Format("Removing group {0} started", groupId));
+
             var groupUsers = _repo.GetUsersInGroup(groupId);
             _repo.DeleteGroupUsers(groupId);
             foreach (var groupUser in groupUsers)
@@ -27,6 +30,8 @@ namespace ThumNet.EasyAD.Handlers
                 if (groupsUserIsIn.Count == 0)
                 {
                     // user is no longer needed
+                    LogHelper.Info<DeleteGroupHandler>(string.Format("Removing user '{0}' because he/she is in no other group", backofficeUser.Name));
+                    
                     // See: https://our.umbraco.org/forum/getting-started/questions-about-runway-and-modules/8848-Deleting-Users
                     _userService.Delete(backofficeUser, deletePermanently: true); // TODO: remove deletePermanently
                 }
@@ -38,8 +43,8 @@ namespace ThumNet.EasyAD.Handlers
             }
 
             var rowCount = _repo.DeleteGroup(groupId);
-            
 
+            LogHelper.Info<DeleteGroupHandler>(string.Format("Removing group {0} completed", groupId));
             return rowCount;
         }
     }

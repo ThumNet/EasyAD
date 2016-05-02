@@ -1,34 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.DirectoryServices;
+﻿using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
+using System.Linq;
 using ThumNet.EasyAD.Models;
 
 namespace ThumNet.EasyAD.Managers
 {
     internal class ActiveDirectoryManager : IGroupBasedUserManager
-    {
-        private string _domain;
-        private string _ldapPath;
-
-        public ActiveDirectoryManager()
-        {
-            try
-            {
-                _domain = ConfigurationManager.AppSettings["EasyADDomain"];
-                _ldapPath = ConfigurationManager.AppSettings["EasyADPath"];
-            }
-            catch
-            {
-                _domain = string.Empty;
-                _ldapPath = string.Empty;
-            }
-        }
-
+    {        
         public bool CheckPassword(string userName, string password)
         {
-            //return CheckPasswordUsingPrincipalContext(userName, password);
             try
             {
                 using (var context = new PrincipalContext(ContextType.Domain))
@@ -49,6 +29,11 @@ namespace ThumNet.EasyAD.Managers
             using (var context = new PrincipalContext(ContextType.Domain))
             {
                 var group = GroupPrincipal.FindByIdentity(context, groupName);
+                if (group == null)
+                {
+                    return Enumerable.Empty<EasyADUser>();
+                }
+
                 foreach (var principal in group.Members)
                 {
                     var user = principal as UserPrincipal;
@@ -74,63 +59,80 @@ namespace ThumNet.EasyAD.Managers
             }
         }
 
-        internal bool CheckPasswordUsingPrincipalContext(string userName, string password)
-        {
-            // http://stackoverflow.com/questions/290548/validate-a-username-and-password-against-active-directory
-            // TODO: Test with old passwords, read the topic above
+        //private string _domain;
+        //private string _ldapPath;
 
-            if (string.IsNullOrWhiteSpace(_domain))
-            {
-                return false;
-            }
+        //public ActiveDirectoryManager()
+        //{
+        //    try
+        //    {
+        //        _domain = ConfigurationManager.AppSettings["EasyADDomain"];
+        //        _ldapPath = ConfigurationManager.AppSettings["EasyADPath"];
+        //    }
+        //    catch
+        //    {
+        //        _domain = string.Empty;
+        //        _ldapPath = string.Empty;
+        //    }
+        //}
 
-            try
-            {
-                using (var context = new PrincipalContext(ContextType.Domain, _domain))
-                {
-                    return context.ValidateCredentials(userName, password);
-                }
-            }
-            catch
-            {
-                // TODO: log exception
-                return false;
-            }
-        }
+        //internal bool CheckPasswordUsingPrincipalContext(string userName, string password)
+        //{
+        //    // http://stackoverflow.com/questions/290548/validate-a-username-and-password-against-active-directory
+        //    // TODO: Test with old passwords, read the topic above
 
-        internal bool CheckPasswordOldskool(string userName, string password)
-        {
-            bool resp = false;
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(_ldapPath))
-                {
-                    var domainAndUsername = _domain + @"\" + userName;
-                    var entry = new DirectoryEntry(_ldapPath, domainAndUsername, password);
-                    try
-                    {
-                        object obj = entry.NativeObject;
-                        var search = new DirectorySearcher(entry);
-                        search.Filter = "(SAMAccountName=" + userName + ")";
-                        search.PropertiesToLoad.Add("cn");
-                        var result = search.FindOne();
-                        if (result != null)
-                        {
-                            // Login was successful
-                            resp = true;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Login was invalid, you can examine the Exception object here to see why if you want
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Login was invalid, you can examine the Exception object here to see why if you want
-            }
-            return resp;
-        }
+        //    if (string.IsNullOrWhiteSpace(_domain))
+        //    {
+        //        return false;
+        //    }
+
+        //    try
+        //    {
+        //        using (var context = new PrincipalContext(ContextType.Domain, _domain))
+        //        {
+        //            return context.ValidateCredentials(userName, password);
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        // TODO: log exception
+        //        return false;
+        //    }
+        //}
+
+        //internal bool CheckPasswordOldskool(string userName, string password)
+        //{
+        //    bool resp = false;
+        //    try
+        //    {
+        //        if (!String.IsNullOrWhiteSpace(_ldapPath))
+        //        {
+        //            var domainAndUsername = _domain + @"\" + userName;
+        //            var entry = new DirectoryEntry(_ldapPath, domainAndUsername, password);
+        //            try
+        //            {
+        //                object obj = entry.NativeObject;
+        //                var search = new DirectorySearcher(entry);
+        //                search.Filter = "(SAMAccountName=" + userName + ")";
+        //                search.PropertiesToLoad.Add("cn");
+        //                var result = search.FindOne();
+        //                if (result != null)
+        //                {
+        //                    // Login was successful
+        //                    resp = true;
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                // Login was invalid, you can examine the Exception object here to see why if you want
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Login was invalid, you can examine the Exception object here to see why if you want
+        //    }
+        //    return resp;
+        //}
     }
 }

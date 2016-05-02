@@ -3,6 +3,7 @@ using System.Linq;
 using ThumNet.EasyAD.Managers;
 using ThumNet.EasyAD.Models;
 using ThumNet.EasyAD.Repositories;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Models.Membership;
 using Umbraco.Core.Services;
 
@@ -16,6 +17,8 @@ namespace ThumNet.EasyAD.Handlers
 
         public void Handle()
         {
+            LogHelper.Info<RefreshGroupsHandler>("Refresh started");
+
             // 1) get the groups from db
             var groups = _repo.GetAll();
 
@@ -38,6 +41,7 @@ namespace ThumNet.EasyAD.Handlers
             // Delete the users that aren't any group anymore
             foreach (var name in deleteUsers)
             {
+                LogHelper.Info<RefreshGroupsHandler>(string.Format("Removing user '{0}' from backoffice", name));
                 var user = backofficeUsers.First(u => u.Username == name);
                 _userService.Delete(user, deletePermanently: true); // TODO: remove deletePermanently
                 _repo.DeleteUser(user.Id);
@@ -48,6 +52,7 @@ namespace ThumNet.EasyAD.Handlers
             // Create the users that aren't in the backoffice yet
             foreach (var name in newUsers)
             {
+                LogHelper.Debug<RefreshGroupsHandler>(string.Format("Creating user '{0}' in backoffice", name));                
                 var user = adUsers.First(u => u.Login == name);
                 var firstGroup = groups.Single(g => g.Id == adGroupedUsers.First(a => a.Value.Contains(user)).Key);
                 var backofficeUser = _userService.CreateUserWithIdentity(user.Login, user.Email, _userService.GetUserTypeById(firstGroup.UserType));
@@ -65,6 +70,8 @@ namespace ThumNet.EasyAD.Handlers
                 var groupsUserIsIn = adGroupedUsers.Where(a => a.Value.Any(u => u.Login == user.Username)).Select(kvp => groups.First(g => g.Id == kvp.Key));
                 ConfigureUserRights(user, groupsUserIsIn);
             }
+
+            LogHelper.Info<RefreshGroupsHandler>("Refresh completed");
         }
 
         private IEnumerable<EasyADUser> GetUniqueAdUsers(Dictionary<int, IEnumerable<EasyADUser>> adGroupedUsers)

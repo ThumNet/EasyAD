@@ -4,7 +4,6 @@ using ThumNet.EasyAD.Handlers;
 using ThumNet.EasyAD.Managers;
 using ThumNet.EasyAD.Repositories;
 using Umbraco.Core;
-using Umbraco.Web;
 
 namespace ThumNet.EasyAD.Tasks
 {
@@ -31,7 +30,7 @@ namespace ThumNet.EasyAD.Tasks
 
                 var appContext = ApplicationContext.Current;
                 var repo = new EasyADRepository(appContext.DatabaseContext.Database, appContext.DatabaseContext.SqlSyntax);
-                var groupManager = ManagerFactory.GetManager();
+                var groupManager = new ActiveDirectoryManager();
                 var handler = new RefreshGroupsHandler(repo, groupManager, appContext.Services.UserService);
                 handler.Handle();
             }

@@ -290,15 +290,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Handlers\BaseHandlerTest.cs" />
-    <Compile Include="Handlers\RefreshGroupsHandlerTests.cs" />
     <Compile Include="Models\EasyADUserTests.cs" />
     <Compile Include="Resolvers\UserTypeResolverTests.cs" />
     <Compile Include="Resolvers\SectionResolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestData\Constants.cs" />
-    <Compile Include="TestData\TestUser.cs" />
-    <Compile Include="TestData\TestUserType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThumNet.EasyAD\ThumNet.EasyAD.csproj">

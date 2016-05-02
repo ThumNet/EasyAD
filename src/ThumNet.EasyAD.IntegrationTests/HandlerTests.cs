@@ -18,7 +18,7 @@ namespace ThumNet.EasyAD.IntegrationTests
         {
             get
             {
-                // Administrators, Writer, Editors, Translators
+                // Administrators, Writer, Editors, Translator
                 return _userTypes ?? (_userTypes = Services.UserService.GetAllUserTypes().ToDictionary(t => t.Name, t => t.Id));
             }
         }
@@ -32,7 +32,8 @@ namespace ThumNet.EasyAD.IntegrationTests
                 return _sections ?? (_sections = Services.SectionService.GetSections().ToDictionary(t => t.Name, t => t.Alias));
             }
         }
-        Transaction _transaction = null;
+
+        private Transaction _transaction = null;
 
         [TestInitialize]
         public void TestInit()
@@ -46,9 +47,20 @@ namespace ThumNet.EasyAD.IntegrationTests
         public void TestCleanup()
         {
             if (_transaction != null)
-            {
+            {                
                 _transaction.Dispose();
             }
+        }
+
+        internal class ADUsers
+        {
+            internal static EasyADUser AndrewDavis = new EasyADUser { DiplayName = "Andrew Davis", Login = "DavisAn", Email = "DavisAn@test.local" };
+            internal static EasyADUser ChristopherMoore = new EasyADUser { DiplayName = "Christopher Moore", Login = "MooreCh", Email = "MooreCh@test.local" };
+            internal static EasyADUser DanielMiller = new EasyADUser { DiplayName = "Daniel Miller", Login = "MilleDa", Email = "MilleDa@test.local" };
+            internal static EasyADUser JesusBrooks = new EasyADUser { DiplayName = "Jesus Brooks", Login = "BrookJe", Email = "BrookJe@test.local" };
+            internal static EasyADUser GracieMuhlberg = new EasyADUser { DiplayName = "Gracie Muhlberg", Login = "MuhlbGr", Email = "MuhlbGr@test.local" };
+            internal static EasyADUser MichaelJohnson = new EasyADUser { DiplayName = "Michael Johnson", Login = "JohnsMi", Email = "JohnsMi@test.local" };
+            internal static EasyADUser SethButler = new EasyADUser { DiplayName = "Seth Butler", Login = "ButleSe", Email = "ButleSe@test.local" };
         }
 
         #endregion
@@ -58,7 +70,7 @@ namespace ThumNet.EasyAD.IntegrationTests
             var handler = new SaveGroupHandler(Repo, Manager, Services.UserService);
             var groupName = "AD-Writers";
             Manager.AddUsers(groupName,
-                new EasyADUser { Login = "userA", DiplayName = "User A", Email = "usera@local" }
+                ADUsers.AndrewDavis
             );
             var group = new EasyADGroup
             {
@@ -75,8 +87,8 @@ namespace ThumNet.EasyAD.IntegrationTests
             var handler = new SaveGroupHandler(Repo, Manager, Services.UserService);
             var groupName = "AD-Editors";
             Manager.AddUsers(groupName,
-                new EasyADUser { Login = "userA", DiplayName = "User A", Email = "usera@local" },
-                new EasyADUser { Login = "userB", DiplayName = "User B", Email = "userb@local" }
+                ADUsers.AndrewDavis,
+                ADUsers.ChristopherMoore
                 );
             var group = new EasyADGroup
             {
@@ -88,13 +100,31 @@ namespace ThumNet.EasyAD.IntegrationTests
             return group;
         }
 
+        private EasyADGroup CreateTranslatorsGroup()
+        {
+            var handler = new SaveGroupHandler(Repo, Manager, Services.UserService);
+            var groupName = "AD-Translators";
+            Manager.AddUsers(groupName,
+                ADUsers.ChristopherMoore,
+                ADUsers.SethButler
+                );
+            var group = new EasyADGroup
+            {
+                Name = groupName,
+                UserType = AllUserTypes["Translator"],
+                Sections = AllSections["Translation"]
+            };
+            handler.Handle(group);
+            return group;
+        }
+
         private EasyADGroup CreateAdminsGroup()
         {
             var handler = new SaveGroupHandler(Repo, Manager, Services.UserService);
             var groupName = "AD-Admins";
             Manager.AddUsers(groupName,
-                new EasyADUser { Login = "userB", DiplayName = "User B", Email = "userB@local" },
-                new EasyADUser { Login = "userC", DiplayName = "User C", Email = "userC@local" }
+                ADUsers.ChristopherMoore,
+                ADUsers.DanielMiller
             );
             var group = new EasyADGroup
             {
@@ -113,12 +143,15 @@ namespace ThumNet.EasyAD.IntegrationTests
             return total;
         }
 
-        private void AssertUserForGroup(Umbraco.Core.Models.Membership.IUser user, EasyADGroup group)
+        private void AssertUserForGroup(Umbraco.Core.Models.Membership.IUser user, EasyADGroup group, string[] extraSections = null)
         {
             Assert.AreEqual(group.UserType, user.UserType.Id, "Expected the UserType to match the groups");
 
-            Assert.AreEqual(group.SectionsArray.Length, user.AllowedSections.Count(), "Expected the user sections count to be the same as the groups");
-            Assert.IsTrue(group.SectionsArray.ContainsAll(user.AllowedSections), "Expected the user sections count to be the same as the groups");
+            var expectedSections = group.SectionsArray;
+            if (extraSections != null) { expectedSections = expectedSections.Concat(extraSections).ToArray(); }
+
+            Assert.AreEqual(expectedSections.Length, user.AllowedSections.Count(), "Expected the user sections count to be the same as the groups");
+            Assert.IsTrue(expectedSections.ContainsAll(user.AllowedSections), "Expected the user sections count to be the same as the groups");
         }
 
         [TestMethod]
@@ -129,15 +162,15 @@ namespace ThumNet.EasyAD.IntegrationTests
 
             //Act            
             var groups = Repo.GetAll();
-            var userA = Services.UserService.GetByUsername("userA");
+            var userA = Services.UserService.GetByUsername(ADUsers.AndrewDavis.Login);
 
             //Assert
             Assert.AreEqual(1, groups.Count());
             Assert.AreEqual(group.Name, groups.First().Name);
 
             Assert.IsNotNull(userA);
-            Assert.AreEqual("User A", userA.Name);
-            Assert.AreEqual("usera@local", userA.Email);
+            Assert.AreEqual(ADUsers.AndrewDavis.DiplayName, userA.Name);
+            Assert.AreEqual(ADUsers.AndrewDavis.Email, userA.Email);
 
             AssertUserForGroup(userA, group);
         }
@@ -145,7 +178,7 @@ namespace ThumNet.EasyAD.IntegrationTests
         /// <summary>
         /// Create the Writers and Editors group.
         /// Expected:
-        ///     - UserA had rights of Editors groups (this is highest).
+        ///     - AndrewDavis had rights of Editors groups (this is highest).
         /// </summary>
         [TestMethod]
         public void SaveGroupsWithOverlap()
@@ -158,8 +191,8 @@ namespace ThumNet.EasyAD.IntegrationTests
 
             //Act            
             var groups = Repo.GetAll().ToList();
-            var userA = Services.UserService.GetByUsername("userA");
-            var userB = Services.UserService.GetByUsername("userB");
+            var userA = Services.UserService.GetByUsername(ADUsers.AndrewDavis.Login);
+            var userB = Services.UserService.GetByUsername(ADUsers.ChristopherMoore.Login);
 
             //Assert
             Assert.AreEqual(2, groups.Count());
@@ -170,6 +203,37 @@ namespace ThumNet.EasyAD.IntegrationTests
             Assert.AreEqual(3, afterAddUserCount);
 
             AssertUserForGroup(userA, group2);
+        }
+
+        /// <summary>
+        /// Create the Editors and Translators group.
+        /// Expected:
+        ///     - AndrewDavis had rights of Editors groups (this is highest).
+        /// </summary>
+        [TestMethod]
+        public void SaveGroupsWithOverlapAndExtraSection()
+        {
+            //Arrange
+            int initialUserCount = GetUserCount();
+            var group1 = CreateEditorsGroup();
+            var group2 = CreateTranslatorsGroup();
+            var afterAddUserCount = GetUserCount();
+
+            //Act            
+            var groups = Repo.GetAll().ToList();
+            var userA = Services.UserService.GetByUsername(ADUsers.ChristopherMoore.Login);
+            var userB = Services.UserService.GetByUsername(ADUsers.SethButler.Login);
+
+            //Assert
+            Assert.AreEqual(2, groups.Count());
+            Assert.AreEqual(group1.Name, groups[0].Name);
+            Assert.AreEqual(group2.Name, groups[1].Name);
+
+            Assert.AreEqual(1, initialUserCount);
+            Assert.AreEqual(4, afterAddUserCount);
+
+            AssertUserForGroup(userA, group1, group2.SectionsArray);
+            AssertUserForGroup(userB, group2);
         }
 
         [TestMethod]
@@ -229,7 +293,7 @@ namespace ThumNet.EasyAD.IntegrationTests
             //Act
             handler.Handle(theGroup.Id);
             groups = Repo.GetAll();
-            var userA = Services.UserService.GetByUsername("userA");
+            var userA = Services.UserService.GetByUsername(ADUsers.AndrewDavis.Login);
 
             //Assert
             Assert.AreEqual(1, groups.Count());
@@ -238,6 +302,159 @@ namespace ThumNet.EasyAD.IntegrationTests
             Assert.AreEqual(2, afterDeleteUserCount);
 
             AssertUserForGroup(userA, group1);
+        }
+
+        [TestMethod]
+        public void RefreshGroupNewUserGetsAddedToGroup()
+        {
+            //Arrange
+            int initialUserCount = GetUserCount();
+            var group = CreateWritersGroup();
+            var newUser = ADUsers.MichaelJohnson;
+            var handler = new RefreshGroupsHandler(Repo, Manager, Services.UserService);
+
+            //Act
+            var groups = Repo.GetAll();
+            Manager.AddUsers(group.Name, newUser);
+            handler.Handle();
+            var afterRefreshUserCount = GetUserCount();
+            var user = Services.UserService.GetByUsername(newUser.Login);
+
+            //Assert
+            Assert.AreEqual(1, initialUserCount, "Initial count");
+            Assert.AreEqual(3, afterRefreshUserCount, "After refresh count");
+
+            Assert.IsNotNull(user);
+            Assert.AreEqual(newUser.DiplayName, user.Name);
+            Assert.AreEqual(newUser.Email, user.Email);
+
+            AssertUserForGroup(user, group);
+        }
+
+        [TestMethod]
+        public void RefreshGroupExistingUserGetsRemovedFromGroup()
+        {
+            //Arrange
+            int initialUserCount = GetUserCount();
+            var group = CreateWritersGroup();
+            
+            var handler = new RefreshGroupsHandler(Repo, Manager, Services.UserService);
+
+            //Act
+            var groups = Repo.GetAll();
+            Manager.RemoveUsers(group.Name, ADUsers.AndrewDavis.Login);
+            handler.Handle();            
+            var user = Services.UserService.GetByUsername(ADUsers.AndrewDavis.Login);
+            var afterRefreshUserCount = GetUserCount();
+
+            //Assert
+            Assert.AreEqual(1, initialUserCount, "Initial count");
+            Assert.AreEqual(1, afterRefreshUserCount, "After refresh count");
+
+            Assert.IsNull(user);
+        }
+
+        [TestMethod]
+        public void RefreshGroupGroupNoLongerExistsRemovesUser()
+        {
+            //Arrange
+            int initialUserCount = GetUserCount();
+            var group = CreateWritersGroup();
+            int afterAddUserCount = GetUserCount();
+            Manager.RemoveGroup(group.Name);
+
+            var handler = new RefreshGroupsHandler(Repo, Manager, Services.UserService);
+
+            //Act
+            handler.Handle();
+            var afterRefreshUserCount = GetUserCount();
+
+            //Assert
+            Assert.AreEqual(1, initialUserCount, "Initial count");
+            Assert.AreEqual(2, afterAddUserCount, "After add count");
+            Assert.AreEqual(1, afterRefreshUserCount, "After refresh count");            
+        }
+
+        [TestMethod]
+        public void RefreshGroupExistingUserInMultipleGroupsGetsRemovedFromGroup()
+        {
+            //Arrange
+            int initialUserCount = GetUserCount();
+            var group1 = CreateWritersGroup();
+            var group2 = CreateEditorsGroup();
+            int afterAddUserCount = GetUserCount();            
+
+            var handler = new RefreshGroupsHandler(Repo, Manager, Services.UserService);
+
+            //Act
+            var groups = Repo.GetAll();
+            Manager.RemoveUsers(group2.Name, ADUsers.AndrewDavis.Login);
+            handler.Handle();
+            var afterRefreshUserCount = GetUserCount();
+            var userA = Services.UserService.GetByUsername(ADUsers.AndrewDavis.Login);
+            var userB = Services.UserService.GetByUsername(ADUsers.ChristopherMoore.Login);
+
+            //Assert
+            Assert.AreEqual(1, initialUserCount, "Initial count");
+            Assert.AreEqual(3, afterAddUserCount, "After add count");
+            Assert.AreEqual(3, afterRefreshUserCount, "After refresh count");
+
+            AssertUserForGroup(userA, group1);
+            AssertUserForGroup(userB, group2);
+        }
+
+        [TestMethod]
+        public void RefreshGroupExistingUserGetsAddedToLesserRightsGroup()
+        {
+            //Arrange
+            int initialUserCount = GetUserCount();
+            var group1 = CreateWritersGroup();
+            var group2 = CreateEditorsGroup();
+            int afterAddUserCount = GetUserCount();
+            var handler = new RefreshGroupsHandler(Repo, Manager, Services.UserService);
+
+            //Act
+            var groups = Repo.GetAll();
+            Manager.AddUsers(group1.Name, ADUsers.AndrewDavis);
+            handler.Handle();
+            var afterRefreshUserCount = GetUserCount();
+            var userA = Services.UserService.GetByUsername(ADUsers.AndrewDavis.Login);
+            var userB = Services.UserService.GetByUsername(ADUsers.ChristopherMoore.Login);
+
+            //Assert
+            Assert.AreEqual(1, initialUserCount, "Initial count");
+            Assert.AreEqual(3, afterAddUserCount, "After add count");
+            Assert.AreEqual(3, afterRefreshUserCount, "After refresh count");
+
+            AssertUserForGroup(userA, group2);
+            AssertUserForGroup(userB, group2);
+        }
+
+        [TestMethod]
+        public void RefreshGroupExistingUserGetsAddedToGreaterRightsGroup()
+        {
+            //Arrange
+            int initialUserCount = GetUserCount();
+            var adminGroup = CreateAdminsGroup();
+            var writersGroup = CreateWritersGroup();
+            int afterAddUserCount = GetUserCount();
+
+            var handler = new RefreshGroupsHandler(Repo, Manager, Services.UserService);
+
+            //Act
+            var groups = Repo.GetAll();
+            Manager.AddUsers(adminGroup.Name, ADUsers.AndrewDavis);
+            handler.Handle();
+
+            var afterRefreshUserCount = GetUserCount();
+            var userA = Services.UserService.GetByUsername(ADUsers.AndrewDavis.Login);
+
+            //Assert
+            Assert.AreEqual(1, initialUserCount, "Initial count");
+            Assert.AreEqual(4, afterAddUserCount, "After add count");
+            Assert.AreEqual(4, afterRefreshUserCount, "After refresh count");
+
+            AssertUserForGroup(userA, adminGroup);
         }
     }
 }
