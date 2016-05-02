@@ -425,6 +425,15 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <PostBuildEvent>
+      del  "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD" /F /S
+      xcopy "$(SolutionDir)ThumNet.EasyAD\bin\Debug\FluentScheduler.dll" "$(SolutionDir)ThumNet.EasyAD.DemoSite\bin\" /Y
+      xcopy "$(SolutionDir)ThumNet.EasyAD\bin\Debug\ThumNet.EasyAD.dll" "$(SolutionDir)ThumNet.EasyAD.DemoSite\bin\" /Y
+      mkdir "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD"
+      xcopy "$(SolutionDir)ThumNet.EasyAD\App_Plugins\EasyAD" "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD" /E /I /Y
+    </PostBuildEvent>
+  </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

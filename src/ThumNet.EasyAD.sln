@@ -21,6 +21,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{245873C7-232A-4F21-8F8C-D85839290199}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumNet.EasyAD.IntegrationTests", "ThumNet.EasyAD.IntegrationTests\ThumNet.EasyAD.IntegrationTests.csproj", "{3AB6C48F-C4A9-403A-9967-ACBCF0DB8ACB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{21892B96-DD35-4B8E-8D7A-F99EE894A4AD} = {21892B96-DD35-4B8E-8D7A-F99EE894A4AD}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

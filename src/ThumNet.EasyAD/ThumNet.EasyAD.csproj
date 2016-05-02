@@ -328,11 +328,8 @@
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>del  "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD" /F /S
-xcopy "$(TargetDir)FluentScheduler.dll" "$(SolutionDir)ThumNet.EasyAD.DemoSite\bin\" /Y
-xcopy "$(TargetPath)" "$(SolutionDir)ThumNet.EasyAD.DemoSite\bin\" /Y
-mkdir "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD"
-xcopy "$(ProjectDir)App_Plugins\EasyAD" "$(SolutionDir)ThumNet.EasyAD.DemoSite\App_Plugins\EasyAD" /E /I /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
