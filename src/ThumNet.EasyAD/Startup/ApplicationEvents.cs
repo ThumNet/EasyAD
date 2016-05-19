@@ -1,6 +1,8 @@
 ﻿using FluentScheduler;
+using ThumNet.EasyAD.Configuration;
 using ThumNet.EasyAD.Models;
 using Umbraco.Core;
+using Umbraco.Core.Configuration;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Persistence;
 
@@ -10,9 +12,12 @@ namespace ThumNet.EasyAD.Startup
     {
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            CreateTables(applicationContext);
+            var config = UmbracoConfig.For.EasyAD();
+            if (!config.Enable)
+                return;
 
-            TaskManager.Initialize(new UpdateEasyADRegistry());
+            CreateTables(applicationContext);
+            TaskManager.Initialize(new UpdateEasyADRegistry(config));
         }
 
         internal static void CreateTables(ApplicationContext applicationContext)
