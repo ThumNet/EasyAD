@@ -7,8 +7,8 @@ The plugin adds a new Tree called 'AD Groups' to the 'Users' application, from t
 ![Build status](https://ci.appveyor.com/api/projects/status/github/thumnet/easyad?branch=master&svg=true)
 
 To use the plugin follow these steps:
-1. Add it using Nuget (not yet published)
-2. Update your web.config and replace the `owin:appStartup` appSetting value with:
+- Add it using Nuget (not yet published)
+- Update your web.config and replace the `owin:appStartup` appSetting value with:
 ```
 <add key="owin:appStartup" value="ThumNet.EasyAD.Startup.UmbracoEasyADOwinStartup" />
 ```
