@@ -1,6 +1,8 @@
 # version format
 version: 0.2.0.{build}
 
+skip_non_tags: true
+
 # UMBRACO_PACKAGE_PRERELEASE_SUFFIX if a rtm release build this should be blank, otherwise if empty will default to alpha
 # example UMBRACO_PACKAGE_PRERELEASE_SUFFIX=beta
 init:
@@ -16,7 +18,6 @@ test:
 
 artifacts:
   - path: Releases\*.nupkg
-  - path: Releases\*.zip
 
 deploy:
 #      # MyGet Deployment for builds & releases

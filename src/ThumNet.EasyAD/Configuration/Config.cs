@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 
 namespace ThumNet.EasyAD.Configuration
 {
@@ -20,8 +15,13 @@ namespace ThumNet.EasyAD.Configuration
         /// been provided via the Setup method, or a new instance is created, which
         /// will load settings from the config file.
         /// </summary>
-        internal static Config Value => _value ?? new Config();
-
+        internal static Config Value
+        {
+            get
+            {
+                return _value ?? (_value = new Config());
+            }
+        }
 
         internal const int DefaultSyncInterval = 15; // Interval in minutes for AD group Synchronisation
 
@@ -56,11 +56,11 @@ namespace ThumNet.EasyAD.Configuration
         ///     <para>If this is false then absolutely nothing happens.</para>
         ///     <para>Default value is <c>false</c> which means that unless we have this setting, nothing happens.</para>
         /// </remarks>
-        public bool Enable { get; }
+        public bool Enable { get; private set; }
 
         /// <summary>
         /// Get a value indicating the AD group synchronisation interval in minutes
         /// </summary>
-        public int SyncInterval { get; }
+        public int SyncInterval { get; private set; }
     }
 }
