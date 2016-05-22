@@ -116,7 +116,7 @@
 
     <ItemGroup>
       <RootFiles Include="$(CoreProjectDir)\App_Plugins\EasyAD\*.*" />
-	  <TreeFiles Include="$(CoreProjectDir)\App_Plugins\EasyAD\backoffice\easyADTree\*.*" />
+	  <TreeFiles Include="$(CoreProjectDir)\App_Plugins\EasyAD\backoffice\*.*" />
 	  <SrcFiles Include="$(CoreProjectDir)\**\*.cs" Exclude="$(CoreProjectDir)\obj\**"/>
 	  <BinFiles Include="$(CoreProjectDir)\bin\$(BuildConfig)\ThumNet.EasyAD.dll" />
 	  <PackageFile Include="$(MSBuildProjectDirectory)\package.xml" />
@@ -125,7 +125,7 @@
 
 	<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildNuGetDir)\lib\net45" />
 	<Copy SourceFiles="@(RootFiles)" DestinationFolder="$(BuildNuGetDir)\content\App_Plugins\EasyAD\" />
-	<Copy SourceFiles="@(TreeFiles)" DestinationFolder="$(BuildNuGetDir)\content\App_Plugins\EasyAD\backoffice\easyADTree\" />
+	<Copy SourceFiles="@(TreeFiles)" DestinationFolder="$(BuildNuGetDir)\content\App_Plugins\EasyAD\backoffice\" />
     <Copy SourceFiles="@(SrcFiles)" DestinationFiles="@(SrcFiles->'$(BuildNuGetDir)\src\%(RecursiveDir)%(Filename)%(Extension)')" />
 	<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
 

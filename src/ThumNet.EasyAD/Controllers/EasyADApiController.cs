@@ -9,6 +9,8 @@ using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
 using ThumNet.EasyAD.Repositories;
 using ThumNet.EasyAD.Handlers;
+using ThumNet.EasyAD.Configuration;
+using Umbraco.Core.Configuration;
 
 namespace ThumNet.EasyAD.Controllers
 {
@@ -29,6 +31,12 @@ namespace ThumNet.EasyAD.Controllers
         {
             var repo = new EasyADRepository(DatabaseContext.Database, DatabaseContext.SqlSyntax);
             return repo.GetById(id);
+        }
+
+        public Config GetConfig()
+        {
+            var config = UmbracoConfig.For.EasyAD();
+            return config;
         }
 
         public IEnumerable<EasyADGroup> GetAll()

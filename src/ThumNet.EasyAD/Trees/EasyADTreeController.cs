@@ -10,8 +10,8 @@ using ThumNet.EasyAD.Controllers;
 
 namespace ThumNet.EasyAD.Trees
 {
-    [Tree(Constants.Applications.Users, alias: AppConstants.Trees.EasyADGroups, title: "AD Groups", iconClosed: "icon-users", iconOpen: "icon-users")]
     [PluginController(AppConstants.PluginControllerName)]
+    [Tree(Constants.Applications.Users, alias: AppConstants.TreeAlias, title: "AD Groups", iconClosed: "icon-users", iconOpen: "icon-users")]
     public class EasyADTreeController : TreeController
     {
         protected override TreeNodeCollection GetTreeNodes(string id, FormDataCollection queryStrings)

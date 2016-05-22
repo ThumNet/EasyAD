@@ -15,7 +15,11 @@
             },
             deleteById: function(id) {
                 return $http.delete(apiUrl + 'DeleteById?id=' + id);
+            },
+            getConfig: function () {
+                return $http.get(apiUrl + 'GetConfig');
             }
+
         };
     };
     //register the controller

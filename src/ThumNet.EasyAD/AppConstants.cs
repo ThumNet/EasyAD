@@ -8,11 +8,7 @@
             internal const string EasyADGroup2Users = "EasyADGroup2Users";
         }
 
-        internal static class Trees
-        {
-            internal const string EasyADGroups = "easyADTree";
-        }
-
+        internal const string TreeAlias = "easyADTree";
         internal const string PluginControllerName = "EasyAD";
     }
 }

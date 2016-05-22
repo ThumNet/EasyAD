@@ -1,0 +1,13 @@
+﻿<div ng-controller="EasyAD.DashboardController">
+
+    <h3>ThumNet EasyAD</h3>
+
+    <div ng-show="!ready">
+        Loading...
+    </div>
+
+    <div ng-show="ready">
+        Enabled: {{config.Enable}}<br />
+        Synchronisation interval (minutes): {{config.SyncInterval}}
+    </div>
+</div>

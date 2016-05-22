@@ -312,16 +312,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="App_Plugins\EasyAD\backoffice\dashboard.html" />
+    <Content Include="App_Plugins\EasyAD\backoffice\dashboard.controller.js" />
     <Content Include="App_Plugins\EasyAD\package.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="App_Plugins\EasyAD\backoffice\easyADTree\delete.controller.js" />
-    <Content Include="App_Plugins\EasyAD\backoffice\easyADTree\delete.html" />
-    <Content Include="App_Plugins\EasyAD\backoffice\easyADTree\edit.controller.js" />
-    <Content Include="App_Plugins\EasyAD\backoffice\easyADTree\edit.html" />
-    <Content Include="App_Plugins\EasyAD\easyADResource.Factory.js" />
+    <Content Include="App_Plugins\EasyAD\backoffice\delete.controller.js" />
+    <Content Include="App_Plugins\EasyAD\backoffice\delete.html" />
+    <Content Include="App_Plugins\EasyAD\backoffice\edit.controller.js" />
+    <Content Include="App_Plugins\EasyAD\backoffice\edit.html" />
+    <Content Include="App_Plugins\EasyAD\backoffice\easyAD.resource.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

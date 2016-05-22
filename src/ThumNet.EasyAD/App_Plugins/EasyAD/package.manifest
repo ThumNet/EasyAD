@@ -1,7 +1,8 @@
 ﻿{
   "javascript": [
-    "~/App_Plugins/EasyAD/easyADResource.Factory.js",    
-    "~/App_Plugins/EasyAD/backoffice/easyADTree/edit.controller.js",
-    "~/App_Plugins/EasyAD/backoffice/easyADTree/delete.controller.js"
+    "~/App_Plugins/EasyAD/backoffice/easyAD.resource.js",
+    "~/App_Plugins/EasyAD/backoffice/dashboard.controller.js",
+    "~/App_Plugins/EasyAD/backoffice/edit.controller.js",
+    "~/App_Plugins/EasyAD/backoffice/delete.controller.js"
   ]
 }
