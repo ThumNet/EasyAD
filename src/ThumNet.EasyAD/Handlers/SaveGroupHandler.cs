@@ -27,10 +27,10 @@ namespace ThumNet.EasyAD.Handlers
                 if (backofficeUser == null)
                 {
                     // create the backoffice user
-                    LogHelper.Info<DeleteGroupHandler>(string.Format("Creating user '{0}' in backoffice", groupUser.DiplayName));
+                    LogHelper.Info<DeleteGroupHandler>(string.Format("Creating user '{0}' in backoffice", groupUser.DisplayName));
                     backofficeUser = _userService.CreateUserWithIdentity(groupUser.Login, groupUser.Email, _userService.GetUserTypeById(group.UserType));                    
                 }
-                backofficeUser.Name = groupUser.DiplayName;
+                backofficeUser.Name = groupUser.DisplayName;
 
                 _repo.AddUserToGroup(group.Id, backofficeUser.Id);
                 var groupsUserIsIn = _repo.GetGroupsForUser(backofficeUser.Id).ToList();

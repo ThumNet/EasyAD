@@ -10,7 +10,7 @@ namespace ThumNet.EasyAD.UnitTests.Models
         public void Test_GetHashCode_HashesLogin()
         {
             //Arrange
-            var user = new EasyADUser { Login = "test", DiplayName = "Test User", Email = "Test@User" };
+            var user = new EasyADUser { Login = "test", DisplayName = "Test User", Email = "Test@User" };
 
             //Act
 
@@ -22,10 +22,10 @@ namespace ThumNet.EasyAD.UnitTests.Models
         public void Test_Equals_ComparesLoginOnly()
         {
             //Arrange
-            var user1 = new EasyADUser { Login = "test", DiplayName = "Test User", Email = "Test@User" };
-            var user2 = new EasyADUser { Login = "test", DiplayName = "Test User2", Email = "Test@User" };
-            var user3 = new EasyADUser { Login = "test", DiplayName = "Test User", Email = "Test@User2" };
-            var user4 = new EasyADUser { Login = "testA", DiplayName = "Test User", Email = "Test@User" };
+            var user1 = new EasyADUser { Login = "test", DisplayName = "Test User", Email = "Test@User" };
+            var user2 = new EasyADUser { Login = "test", DisplayName = "Test User2", Email = "Test@User" };
+            var user3 = new EasyADUser { Login = "test", DisplayName = "Test User", Email = "Test@User2" };
+            var user4 = new EasyADUser { Login = "testA", DisplayName = "Test User", Email = "Test@User" };
 
             //Act
 

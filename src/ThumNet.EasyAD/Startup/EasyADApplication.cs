@@ -1,5 +1,6 @@
 ﻿using FluentScheduler;
 using ThumNet.EasyAD.Configuration;
+using ThumNet.EasyAD.Managers;
 using ThumNet.EasyAD.Models;
 using Umbraco.Core;
 using Umbraco.Core.Configuration;
@@ -8,8 +9,20 @@ using Umbraco.Core.Persistence;
 
 namespace ThumNet.EasyAD.Startup
 {
-    public class ApplicationEvents : ApplicationEventHandler
+    /// <summary>
+    /// Installs EasyAD into the Umbraco site.
+    /// </summary>
+    public class EasyADApplication : ApplicationEventHandler
     {
+        protected override void ApplicationInitialized(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        {
+            GroupBasedUserManagerResolver.Current = new GroupBasedUserManagerResolver(new ActiveDirectoryManager());
+        }
+
+        protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        {
+        }
+
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             var config = UmbracoConfig.For.EasyAD();
@@ -17,7 +30,7 @@ namespace ThumNet.EasyAD.Startup
                 return;
 
             CreateTables(applicationContext);
-            TaskManager.Initialize(new UpdateEasyADRegistry(config));
+            TaskManager.Initialize(new UpdateEasyADRegistry(config));            
         }
 
         internal static void CreateTables(ApplicationContext applicationContext)
@@ -26,7 +39,7 @@ namespace ThumNet.EasyAD.Startup
             var ctx = applicationContext.DatabaseContext;
             var db = new DatabaseSchemaHelper(ctx.Database, applicationContext.ProfilingLogger.Logger, ctx.SqlSyntax);
 
-            LogHelper.Info<ApplicationEvents>("Creating EasyAD tables");
+            LogHelper.Info<EasyADApplication>("Creating EasyAD tables");
 
             //Check if the DB table does NOT exist
             if (!db.TableExist(AppConstants.TableNames.EasyADGroups))

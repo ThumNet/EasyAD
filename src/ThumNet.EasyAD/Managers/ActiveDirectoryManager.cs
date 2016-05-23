@@ -41,7 +41,7 @@ namespace ThumNet.EasyAD.Managers
 
                     users.Add(new EasyADUser
                     {
-                        DiplayName = user.DisplayName,
+                        DisplayName = user.DisplayName,
                         Email = user.EmailAddress,
                         Login = user.SamAccountName
                     });

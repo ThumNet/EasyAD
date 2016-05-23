@@ -57,7 +57,7 @@ namespace ThumNet.EasyAD.Handlers
                 var firstGroup = groups.Single(g => g.Id == adGroupedUsers.First(a => a.Value.Contains(user)).Key);
                 var backofficeUser = _userService.CreateUserWithIdentity(user.Login, user.Email, _userService.GetUserTypeById(firstGroup.UserType));
 
-                backofficeUser.Name = user.DiplayName;                
+                backofficeUser.Name = user.DisplayName;                
                 backofficeUsers.Add(backofficeUser);
             }
 

@@ -291,6 +291,7 @@
     <Compile Include="Handlers\GroupHandler.cs" />
     <Compile Include="Handlers\SaveGroupHandler.cs" />
     <Compile Include="Handlers\RefreshGroupsHandler.cs" />
+    <Compile Include="Managers\GroupBasedUserManagerResolver.cs" />
     <Compile Include="Managers\IGroupBasedUserManager.cs" />
     <Compile Include="Models\EasyADGroup2User.cs" />
     <Compile Include="Models\EasyADUser.cs" />
@@ -299,7 +300,7 @@
     <Compile Include="Repositories\IEasyADRepository.cs" />
     <Compile Include="Resolvers\SectionResolver.cs" />
     <Compile Include="Resolvers\UserTypeResolver.cs" />
-    <Compile Include="Startup\ApplicationEvents.cs" />
+    <Compile Include="Startup\EasyADApplication.cs" />
     <Compile Include="Startup\UpdateEasyADRegistry.cs" />
     <Compile Include="Tasks\UpdateEasyADTask.cs" />
     <Compile Include="Trees\EasyADTreeController.cs" />

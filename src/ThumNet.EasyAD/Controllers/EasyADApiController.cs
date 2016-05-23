@@ -47,7 +47,7 @@ namespace ThumNet.EasyAD.Controllers
 
         public int DeleteById(int id)
         {
-            var groupManager = new ActiveDirectoryManager();
+            var groupManager = GroupBasedUserManagerResolver.Current.Manager;
             var repo = new EasyADRepository(DatabaseContext.Database, DatabaseContext.SqlSyntax);
             var handler = new DeleteGroupHandler(repo, groupManager, Services.UserService);
             return handler.Handle(id);
@@ -55,8 +55,7 @@ namespace ThumNet.EasyAD.Controllers
 
         public GroupSaveViewModel PostSave(EasyADGroup group)
         {
-            var groupManager = new ActiveDirectoryManager();
-
+            var groupManager = GroupBasedUserManagerResolver.Current.Manager;
             string message = "";
 
             if (!ValidateGroup(group.Name, groupManager, ref message))

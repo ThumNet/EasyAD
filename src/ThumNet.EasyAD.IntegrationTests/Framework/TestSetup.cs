@@ -16,7 +16,7 @@ namespace ThumNet.EasyAD.IntegrationTests.Framework
             _application.Start();
 
             //Because the ApplicationEventHandler isn't recognized from the Test application call the CreateTables method manually 
-            Startup.ApplicationEvents.CreateTables(ApplicationContext.Current);
+            Startup.EasyADApplication.CreateTables(ApplicationContext.Current);
         }
 
         [AssemblyCleanup]

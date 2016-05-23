@@ -54,13 +54,13 @@ namespace ThumNet.EasyAD.IntegrationTests
 
         internal class ADUsers
         {
-            internal static EasyADUser AndrewDavis = new EasyADUser { DiplayName = "Andrew Davis", Login = "DavisAn", Email = "DavisAn@test.local" };
-            internal static EasyADUser ChristopherMoore = new EasyADUser { DiplayName = "Christopher Moore", Login = "MooreCh", Email = "MooreCh@test.local" };
-            internal static EasyADUser DanielMiller = new EasyADUser { DiplayName = "Daniel Miller", Login = "MilleDa", Email = "MilleDa@test.local" };
-            internal static EasyADUser JesusBrooks = new EasyADUser { DiplayName = "Jesus Brooks", Login = "BrookJe", Email = "BrookJe@test.local" };
-            internal static EasyADUser GracieMuhlberg = new EasyADUser { DiplayName = "Gracie Muhlberg", Login = "MuhlbGr", Email = "MuhlbGr@test.local" };
-            internal static EasyADUser MichaelJohnson = new EasyADUser { DiplayName = "Michael Johnson", Login = "JohnsMi", Email = "JohnsMi@test.local" };
-            internal static EasyADUser SethButler = new EasyADUser { DiplayName = "Seth Butler", Login = "ButleSe", Email = "ButleSe@test.local" };
+            internal static EasyADUser AndrewDavis = new EasyADUser { DisplayName = "Andrew Davis", Login = "DavisAn", Email = "DavisAn@test.local" };
+            internal static EasyADUser ChristopherMoore = new EasyADUser { DisplayName = "Christopher Moore", Login = "MooreCh", Email = "MooreCh@test.local" };
+            internal static EasyADUser DanielMiller = new EasyADUser { DisplayName = "Daniel Miller", Login = "MilleDa", Email = "MilleDa@test.local" };
+            internal static EasyADUser JesusBrooks = new EasyADUser { DisplayName = "Jesus Brooks", Login = "BrookJe", Email = "BrookJe@test.local" };
+            internal static EasyADUser GracieMuhlberg = new EasyADUser { DisplayName = "Gracie Muhlberg", Login = "MuhlbGr", Email = "MuhlbGr@test.local" };
+            internal static EasyADUser MichaelJohnson = new EasyADUser { DisplayName = "Michael Johnson", Login = "JohnsMi", Email = "JohnsMi@test.local" };
+            internal static EasyADUser SethButler = new EasyADUser { DisplayName = "Seth Butler", Login = "ButleSe", Email = "ButleSe@test.local" };
         }
 
         #endregion
@@ -169,7 +169,7 @@ namespace ThumNet.EasyAD.IntegrationTests
             Assert.AreEqual(group.Name, groups.First().Name);
 
             Assert.IsNotNull(userA);
-            Assert.AreEqual(ADUsers.AndrewDavis.DiplayName, userA.Name);
+            Assert.AreEqual(ADUsers.AndrewDavis.DisplayName, userA.Name);
             Assert.AreEqual(ADUsers.AndrewDavis.Email, userA.Email);
 
             AssertUserForGroup(userA, group);
@@ -325,7 +325,7 @@ namespace ThumNet.EasyAD.IntegrationTests
             Assert.AreEqual(3, afterRefreshUserCount, "After refresh count");
 
             Assert.IsNotNull(user);
-            Assert.AreEqual(newUser.DiplayName, user.Name);
+            Assert.AreEqual(newUser.DisplayName, user.Name);
             Assert.AreEqual(newUser.Email, user.Email);
 
             AssertUserForGroup(user, group);

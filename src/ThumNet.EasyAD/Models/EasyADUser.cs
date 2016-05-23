@@ -3,7 +3,7 @@
     public class EasyADUser
     {
         public string Login { get; set; }
-        public string DiplayName { get; set; }
+        public string DisplayName { get; set; }
         public string Email { get; set; }
 
         public override int GetHashCode()
