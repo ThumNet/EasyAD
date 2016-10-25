@@ -31,14 +31,14 @@ namespace ThumNet.EasyAD.Handlers
                 {
                     // user is no longer needed
                     LogHelper.Info<DeleteGroupHandler>(string.Format("Removing user '{0}' because he/she is in no other group", backofficeUser.Name));
-                    
+
                     // See: https://our.umbraco.org/forum/getting-started/questions-about-runway-and-modules/8848-Deleting-Users
-                    _userService.Delete(backofficeUser, deletePermanently: true); // TODO: remove deletePermanently
+                    _userService.Delete(backofficeUser, deletePermanently: false);
                 }
                 else
                 {
                     // Update the sections and the usertype based on the remaining groups
-                    ConfigureUserRights(backofficeUser, groupsUserIsIn);                    
+                    ConfigureUserRights(backofficeUser, groupsUserIsIn);
                 }
             }
 

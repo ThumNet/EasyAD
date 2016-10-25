@@ -43,7 +43,7 @@ namespace ThumNet.EasyAD.Handlers
             {
                 LogHelper.Info<RefreshGroupsHandler>(string.Format("Removing user '{0}' from backoffice", name));
                 var user = backofficeUsers.First(u => u.Username == name);
-                _userService.Delete(user, deletePermanently: true); // TODO: remove deletePermanently
+                _userService.Delete(user, deletePermanently: false);
                 _repo.DeleteUser(user.Id);
 
                 backofficeUsers.Remove(user);
@@ -52,18 +52,18 @@ namespace ThumNet.EasyAD.Handlers
             // Create the users that aren't in the backoffice yet
             foreach (var name in newUsers)
             {
-                LogHelper.Debug<RefreshGroupsHandler>(string.Format("Creating user '{0}' in backoffice", name));                
+                LogHelper.Debug<RefreshGroupsHandler>(string.Format("Creating user '{0}' in backoffice", name));
                 var user = adUsers.First(u => u.Login == name);
                 var firstGroup = groups.Single(g => g.Id == adGroupedUsers.First(a => a.Value.Contains(user)).Key);
                 var backofficeUser = _userService.CreateUserWithIdentity(user.Login, user.Email, _userService.GetUserTypeById(firstGroup.UserType));
 
-                backofficeUser.Name = user.DisplayName;                
+                backofficeUser.Name = user.DisplayName;
                 backofficeUsers.Add(backofficeUser);
             }
 
             // Update the current users
             foreach (var user in backofficeUsers)
-            {                
+            {
                 var userGroupIds = adGroupedUsers.Where(g => g.Value.Any(u => u.Login == user.Username)).Select(g => g.Key).ToList();
                 _repo.SetGroupsForUser(user.Id, userGroupIds);
 
