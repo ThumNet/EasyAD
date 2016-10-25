@@ -139,8 +139,8 @@ namespace ThumNet.EasyAD.IntegrationTests
         private int GetUserCount()
         {
             int total = 0;
-            Services.UserService.GetAll(0, 1, out total);
-            return total;
+            var users = Services.UserService.GetAll(0, 100, out total);            
+            return users.Count(u => u.IsApproved); // because we only want to count the users that have not been deleted
         }
 
         private void AssertUserForGroup(Umbraco.Core.Models.Membership.IUser user, EasyADGroup group, string[] extraSections = null)
